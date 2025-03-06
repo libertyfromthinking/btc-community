@@ -318,7 +318,7 @@ export default function Board() {
       </div>
 
       {/* 게시판 필터/검색 */}
-      <div className='flex flex-col sm:flex-row justify-between items-center mb-4 gap-4'>
+      <div className='flex flex-row justify-between items-center mb-4 gap-4'>
         <div className='flex gap-2'>
           <select
             aria-label='게시글 정렬'
@@ -468,7 +468,7 @@ export default function Board() {
       </div>
 
       {/* 글쓰기 버튼 */}
-      <div className='mt-6 flex justify-end'>
+      <div className='my-4 flex justify-end'>
         <button
           type='button'
           className='bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700'
@@ -478,7 +478,7 @@ export default function Board() {
       </div>
 
       {/* Footer */}
-      <div className='fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 py-2 px-4'>
+      <div className='bottom-0 left-0 right-0 border-t border-gray-300 dark:border-gray-700 py-2 px-4'>
         <div className='max-w-7xl mx-auto flex justify-between items-center text-sm'>
           <div className='flex gap-4'>
             <button
@@ -498,9 +498,6 @@ export default function Board() {
           </button>
         </div>
       </div>
-
-      {/* Footer 여백 */}
-      <div className='h-16'></div>
     </div>
   );
 }
