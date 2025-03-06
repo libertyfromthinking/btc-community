@@ -3,6 +3,7 @@
 import { useTheme } from 'next-themes';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import BitcoinChart from './BitcoinChart';
 
 interface Post {
   id: number;
@@ -289,7 +290,6 @@ const dummyPosts: Post[] = [
 
 export default function Board() {
   const { theme, setTheme } = useTheme();
-  const [isPCVersion, setIsPCVersion] = useState(true);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -316,6 +316,8 @@ export default function Board() {
           게시판
         </h1>
       </div>
+
+      <BitcoinChart />
 
       {/* 게시판 필터/검색 */}
       <div className='flex flex-row justify-between items-center mb-4 gap-4'>
