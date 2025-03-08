@@ -35,6 +35,7 @@ export default function BitcoinChart() {
   const [currentPrice, setCurrentPrice] = useState<number | null>(null);
   const [priceData, setPriceData] = useState<PriceData[]>([]);
   const [currentTime, setCurrentTime] = useState<string>('');
+  const [isExpanded, setIsExpanded] = useState(true);
 
   useEffect(() => {
     const fetchBitcoinData = async () => {
@@ -89,7 +90,7 @@ export default function BitcoinChart() {
     return () => clearInterval(interval);
   }, []);
 
-  const CustomTooltip = ({ active, payload, label }: TooltipProps) => {
+  const CustomTooltip = ({ active, payload }: TooltipProps) => {
     if (active && payload && payload.length) {
       return (
         <div className='bg-gray-900 p-2 rounded-md text-sm'>
@@ -107,48 +108,62 @@ export default function BitcoinChart() {
     <div className='mb-6 p-4 bg-white dark:bg-gray-800 rounded-lg shadow'>
       <div className='flex flex-col gap-1 mb-2'>
         <div className='flex justify-between items-center'>
-          <h2 className='text-lg font-semibold text-gray-900 dark:text-white'>
-            비트코인 (BTC/USDT)
-          </h2>
+          <div className='flex items-center gap-2'>
+            <button
+              type='button'
+              onClick={() => setIsExpanded(!isExpanded)}
+              className='text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
+            >
+              {isExpanded ? '▼' : '▶'}
+            </button>
+            <h2 className='text-lg font-semibold text-gray-900 dark:text-white'>
+              비트코인 (BTC/USDT)
+            </h2>
+          </div>
           {currentPrice && (
             <span className='text-lg font-bold text-gray-900 dark:text-white'>
               ${currentPrice.toLocaleString()}
             </span>
           )}
         </div>
-        <span className='text-sm text-gray-500 dark:text-gray-400'>
+        {/* <span className='text-sm text-gray-500 dark:text-gray-400 ml-6'>
           기준시간: {currentTime}
-        </span>
+        </span> */}
       </div>
-      <div className='h-[100px] w-full'>
-        <ResponsiveContainer width='100%' height='100%'>
-          <AreaChart data={priceData}>
-            <defs>
-              <linearGradient id='colorValue' x1='0' y1='0' x2='0' y2='1'>
-                <stop offset='5%' stopColor='#4F46E5' stopOpacity={0.3} />
-                <stop offset='95%' stopColor='#4F46E5' stopOpacity={0} />
-              </linearGradient>
-            </defs>
-            <XAxis
-              dataKey='time'
-              tick={{ fill: '#9CA3AF', fontSize: 11 }}
-              axisLine={false}
-              tickLine={false}
-              interval={5}
-              hide={true}
-            />
-            <YAxis hide={true} domain={['dataMin', 'dataMax']} />
-            <Tooltip content={<CustomTooltip />} />
-            <Area
-              type='monotone'
-              dataKey='value'
-              stroke='#4F46E5'
-              strokeWidth={2}
-              fill='url(#colorValue)'
-            />
-          </AreaChart>
-        </ResponsiveContainer>
-      </div>
+      {isExpanded && (
+        <div className='h-[100px] w-full flex flex-col gap-1 mb-2'>
+          <span className='text-sm text-gray-500 dark:text-gray-400 ml-6'>
+            기준시간: {currentTime}
+          </span>
+          <ResponsiveContainer width='100%' height='100%'>
+            <AreaChart data={priceData}>
+              <defs>
+                <linearGradient id='colorValue' x1='0' y1='0' x2='0' y2='1'>
+                  <stop offset='5%' stopColor='#4F46E5' stopOpacity={0.3} />
+                  <stop offset='95%' stopColor='#4F46E5' stopOpacity={0} />
+                </linearGradient>
+              </defs>
+              <XAxis
+                dataKey='time'
+                tick={{ fill: '#9CA3AF', fontSize: 11 }}
+                axisLine={false}
+                tickLine={false}
+                interval={5}
+                hide={true}
+              />
+              <YAxis hide={true} domain={['dataMin', 'dataMax']} />
+              <Tooltip content={<CustomTooltip />} />
+              <Area
+                type='monotone'
+                dataKey='value'
+                stroke='#4F46E5'
+                strokeWidth={2}
+                fill='url(#colorValue)'
+              />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
+      )}
     </div>
   );
 }

@@ -13,7 +13,41 @@ interface Post {
   views: number;
   comments: number;
   likes: number;
+  isNotice?: boolean;
 }
+
+const dummyNotices: Post[] = [
+  {
+    id: -3,
+    title: '[속보] 비트코인 ETF 순자산 170억 달러 돌파, 역대 최고 기록',
+    author: '관리자',
+    date: '2024-03-26',
+    views: 542,
+    comments: 28,
+    likes: 45,
+    isNotice: true,
+  },
+  {
+    id: -2,
+    title: '[뉴스] SEC, 비트코인 현물 ETF 승인 이후 첫 시장 분석 보고서 발표',
+    author: '관리자',
+    date: '2024-03-26',
+    views: 423,
+    comments: 19,
+    likes: 32,
+    isNotice: true,
+  },
+  {
+    id: -1,
+    title: '[공지] 비트코인 반감기 D-20, 시장 영향 분석',
+    author: '관리자',
+    date: '2024-03-25',
+    views: 651,
+    comments: 34,
+    likes: 56,
+    isNotice: true,
+  },
+];
 
 const dummyPosts: Post[] = [
   {
@@ -370,6 +404,38 @@ export default function Board() {
             </tr>
           </thead>
           <tbody className='bg-white dark:bg-gray-800 divide-y divide-gray-200'>
+            {/* 공지사항 */}
+            {dummyNotices.map((post) => (
+              <tr
+                key={post.id}
+                className='bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700'
+              >
+                <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-indigo-600 dark:text-indigo-400'>
+                  공지
+                </td>
+                <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white'>
+                  <Link
+                    href={`/posts/${post.id}`}
+                    className='hover:text-indigo-600 dark:hover:text-indigo-400'
+                  >
+                    {post.title}
+                    <span className='ml-2 text-gray-500'>
+                      ({post.comments})
+                    </span>
+                  </Link>
+                </td>
+                <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400'>
+                  {post.author}
+                </td>
+                <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400'>
+                  {post.date}
+                </td>
+                <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400'>
+                  {post.views}
+                </td>
+              </tr>
+            ))}
+            {/* 일반 게시글 */}
             {dummyPosts.map((post) => (
               <tr
                 key={post.id}
@@ -405,6 +471,33 @@ export default function Board() {
 
         {/* 모바일 버전 리스트 */}
         <div className='sm:hidden'>
+          {/* 공지사항 */}
+          {dummyNotices.map((post) => (
+            <div
+              key={post.id}
+              className='px-4 py-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700/50'
+            >
+              <Link
+                href={`/posts/${post.id}`}
+                className='block hover:bg-gray-100 dark:hover:bg-gray-700'
+              >
+                <div className='flex items-baseline gap-2 mb-1'>
+                  <span className='text-xs font-medium text-indigo-600 dark:text-indigo-400'>
+                    공지
+                  </span>
+                  <h3 className='text-sm font-medium text-gray-900 dark:text-white'>
+                    {post.title}
+                  </h3>
+                </div>
+                <div className='mt-1 flex justify-between text-xs text-gray-500 dark:text-gray-400'>
+                  <span>{post.author}</span>
+                  <span>{post.date}</span>
+                  <span>조회 {post.views}</span>
+                </div>
+              </Link>
+            </div>
+          ))}
+          {/* 일반 게시글 */}
           {dummyPosts.map((post) => (
             <div
               key={post.id}
